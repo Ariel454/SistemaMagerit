@@ -1,0 +1,69 @@
+﻿@model SeguridadInformática.Models.Activo
+@{
+    ViewData["Title"] = "Detalles Activo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<style>
+    .no-click {
+        pointer-events: none;
+    }
+</style>
+
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Id_Activo" />
+
+    <div class="form-group no-click">
+        <label asp-for="Nombre" class="control-label"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click">
+        <label asp-for="TipoActivo" class="control-label"></label>
+        <select asp-for="TipoActivo" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.TipoDeActivo>()" class="form-control"></select>
+        <span asp-validation-for="TipoActivo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click">
+        <label asp-for="TipoTag"></label>
+        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)" class="form-control"></select>
+        <span asp-validation-for="TipoTag" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click" id="tagDetailsContainer">
+        <label asp-for="TagActivo"></label>
+        <select asp-for="TagActivo" id="tagActivo" asp-items="new SelectList(ViewBag.TipoTagOptions)" class="form-control"></select>
+        <span asp-validation-for="TagActivo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click">
+        <label asp-for="Confidencialidad" class="control-label"></label>
+        <select asp-for="Confidencialidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionCorta>()" class="form-control"></select>
+        <span asp-validation-for="Confidencialidad" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click">
+        <label asp-for="Integridad" class="control-label"></label>
+        <select asp-for="Integridad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionIntegridad>()" class="form-control"></select>
+        <span asp-validation-for="Integridad" class="text-danger"></span>
+    </div>
+
+    <div class="form-group no-click">
+        <label asp-for="Disponibilidad" class="control-label"></label>
+        <select asp-for="Disponibilidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionLarga>()" class="form-control"></select>
+        <span asp-validation-for="Disponibilidad" class="text-danger"></span>
+    </div>
+
+    <!-- Agrega los demás campos según sea necesario -->
+
+</form>
+
+<div>
+    <a asp-action="Index" class="btn btn-primary">Volver a la Lista</a>
+</div>
+

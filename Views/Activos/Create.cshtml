@@ -1,0 +1,119 @@
+﻿@model SeguridadInformática.Models.Activo
+@{
+    ViewData["Title"] = "Crear Activo";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoActivo"></label>
+        <select asp-for="TipoActivo" asp-items="new SelectList(ViewBag.TipoActivoOptions)"></select>
+        <span asp-validation-for="TipoActivo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoTag"></label>
+        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)"></select>
+        <span asp-validation-for="TipoTag" class="text-danger"></span>
+    </div>
+
+    <div class="form-group" id="tagDetailsContainer" style="display:none;">
+        <label asp-for="TagActivo"></label>
+        <select asp-for="TagActivo" id="tagActivo" class="form-control"></select>
+        <span asp-validation-for="TagActivo" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Confidencialidad"></label>
+        <select asp-for="Confidencialidad" asp-items="new SelectList(ViewBag.ValoracionCortaOptions)"></select>
+        <span asp-validation-for="Confidencialidad" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Integridad"></label>
+        <select asp-for="Integridad" asp-items="new SelectList(ViewBag.ValoracionIntegridadOptions)"></select>
+        <span asp-validation-for="Integridad" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Disponibilidad"></label>
+        <select asp-for="Disponibilidad" asp-items="new SelectList(ViewBag.ValoracionLargaOptions)"></select>
+        <span asp-validation-for="Disponibilidad" class="text-danger"></span>
+    </div>
+
+    <!-- Agrega los demás campos según sea necesario -->
+
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+@section Scripts {
+    <script>
+        // Función para cargar las opciones del tercer combo basado en la selección del segundo combo
+        function cargarOpcionesTercerCombo() {
+            var tipoTag = $("#tipoTag").val();
+            var tagActivo = $("#tagActivo");
+
+            // Limpiar las opciones actuales
+            tagActivo.empty();
+
+            // Obtener las opciones basado en el valor seleccionado en el segundo combo
+            switch (tipoTag) {
+                case "Software":
+                    cargarOpcionesEnum(tagActivo, ["SW", "PRP", "SUB", "STD", "BROWSER", "WWW", "APP", "DBMS", "BACKUP"]);
+                    break;
+                case "Servicios":
+                    cargarOpcionesEnum(tagActivo, ["ANON", "PUB", "EXT", "INT", "WWW", "TELNET", "EMAIL", "FILE"]);
+                    break;
+                case "Instalaciones":
+                    cargarOpcionesEnum(tagActivo, ["SITE", "BUILDING", "LOCAL", "MOBILE", "CAR", "PLANE", "SHIP", "SHELTER", "CHANNEL", "BACKUP"]);
+                    break;
+                case "Equipamiento_Auxiliar":
+                    cargarOpcionesEnum(tagActivo, ["POWER", "UPS", "GEN", "AC", "CABLING", "FURNITURE", "SAFE"]);
+                    break;
+                case "Equipos_Informaticos":
+                    cargarOpcionesEnum(tagActivo, ["HOST", "MID", "PC", "MOBILE", "BACKUP"]);
+                    break;
+                case "Redes_De_Comunicaciones":
+                    cargarOpcionesEnum(tagActivo, ["PSTN", "ISDN", "RADIO", "WIFI", "MOBILE", "SAT", "LAN", "MAN", "INTERNET"]);
+                    break;
+                case "Personal":
+                    cargarOpcionesEnum(tagActivo, ["UE", "UI", "OP", "ADM", "COM", "DBA"]);
+                    break;
+                // Agrega más casos según sea necesario
+            }
+        }
+
+        // Función para agregar las opciones al combo
+        function cargarOpcionesEnum(select, opciones) {
+            for (var i = 0; i < opciones.length; i++) {
+                var option = document.createElement("option");
+                option.value = opciones[i];
+                option.text = opciones[i];
+                select.append(option);
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        $(document).ready(function () {
+            cargarOpcionesTercerCombo();
+
+            // Manejar el evento de cambio en el segundo combo
+            $("#tipoTag").change(function () {
+                var tipoTagValue = $(this).val();
+                if (tipoTagValue === "Software" || tipoTagValue === "Servicios" || tipoTagValue === "Instalaciones" || tipoTagValue === "Equipamiento_Auxiliar" || tipoTagValue === "Equipos_Informaticos" || tipoTagValue === "Redes_De_Comunicaciones" || tipoTagValue === "Personal") {
+                    $("#tagDetailsContainer").show();
+                    cargarOpcionesTercerCombo();
+                } else {
+                    $("#tagDetailsContainer").hide();
+                }
+            });
+        });
+    </script>
+}

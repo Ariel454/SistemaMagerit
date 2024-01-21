@@ -1,0 +1,59 @@
+﻿@model IEnumerable<SeguridadInformática.Models.Activo>
+@{
+    ViewData["Title"] = "Listado de Activos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Tipo de Activo</th>
+            <th>Tipo de Tag</th>
+            <th>Tag Activo</th>
+            <th>Confidencialidad</th>
+            <th>Integridad</th>
+            <th>Disponibilidad</th>
+            <th>Valoración</th>
+            <!-- Agrega más columnas según sea necesario -->
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var activo in Model)
+            {
+                <tr>
+                    <td>@activo.Id_Activo</td>
+                    <td>@activo.Nombre</td>
+                    <td>@activo.TipoActivo</td>
+                    <td>@activo.TipoTag</td>
+                    <td>@activo.TagActivo</td>
+                    <td>@activo.Confidencialidad</td>
+                    <td>@activo.Integridad</td>
+                    <td>@activo.Disponibilidad</td>
+                    <td>@activo.CalcularValoracion()</td>
+                    <!-- Agrega más columnas según sea necesario -->
+                    <td>
+                        <a asp-action="Details" asp-route-id="@activo.Id_Activo">Detalles</a> |
+                        <a asp-action="Edit" asp-route-id="@activo.Id_Activo">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@activo.Id_Activo">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="10">No hay activos disponibles.</td>
+            </tr>
+        }
+    </tbody>
+</table>
