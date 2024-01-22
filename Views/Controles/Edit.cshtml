@@ -1,0 +1,93 @@
+﻿@model SeguridadInformática.Models.Control
+@{
+    ViewData["Title"] = "Editar Control";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<form asp-action="Edit" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <input type="hidden" asp-for="Nombre" />
+
+    <div class="form-group">
+        <label asp-for="Descripcion"></label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="TipoControl"></label>
+        <select asp-for="TipoControl" asp-items="@(new SelectList(ViewBag.TipoControlOptions))" class="form-control"></select>
+        <span asp-validation-for="TipoControl" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Eficacia"></label>
+        <select asp-for="Eficacia" asp-items="@(new SelectList(ViewBag.EficaciaOptions))" class="form-control"></select>
+        <span asp-validation-for="Eficacia" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Guardar" class="btn btn-primary" />
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Volver a la Lista</a>
+</div>
+
+@section Scripts {
+    <script>
+        // Función para cargar las opciones del tercer combo basado en la selección del segundo combo
+        function cargarOpcionesTercerCombo() {
+            var tipoControl = $("#TipoControl").val(); // Cambiado a "TipoControl"
+            var eficacia = $("#Eficacia");
+
+            // Limpiar las opciones actuales
+            eficacia.empty();
+
+            // Obtener las opciones basado en el valor seleccionado en el segundo combo
+            switch (tipoControl) {
+                case "Modificacion_Del_Riesgo":
+                    cargarOpcionesSpinner(eficacia, 0, 10);
+                    break;
+                case "Retencion_Del_Riesgo":
+                    cargarOpcionesSpinner(eficacia, 0, 10);
+                    break;
+                case "Evitar_El_Riesgo":
+                    cargarOpcionesSpinner(eficacia, 0, 10);
+                    break;
+                case "Distribucion_Del_Riesgo":
+                    cargarOpcionesSpinner(eficacia, 0, 10);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        // Función para agregar las opciones al spinner
+        function cargarOpcionesSpinner(spinner, min, max) {
+            spinner.attr("min", min);
+            spinner.attr("max", max);
+        }
+
+        // Llamar a la función al cargar la página
+        $(document).ready(function () {
+            cargarOpcionesTercerCombo();
+
+            // Manejar el evento de cambio en el segundo combo
+            $("#TipoControl").change(function () {
+                var tipoControlValue = $(this).val();
+                if (tipoControlValue === "Modificacion_Del_Riesgo" || tipoControlValue === "Retencion_Del_Riesgo" || tipoControlValue === "Evitar_El_Riesgo" || tipoControlValue === "Distribucion_Del_Riesgo") {
+                    $("#eficaciaDetailsContainer").show();
+                    cargarOpcionesTercerCombo();
+                } else {
+                    $("#eficaciaDetailsContainer").hide();
+                }
+            });
+        });
+    </script>
+}
+
+}
+

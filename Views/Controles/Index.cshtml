@@ -1,0 +1,51 @@
+﻿@model IEnumerable<SeguridadInformática.Models.Control>
+
+@{
+    ViewData["Title"] = "Listado de Controles";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Tipo Control</th>
+            <th>Descripción</th>
+            <th>Eficacia esperada</th> <!-- Nueva columna -->
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var control in Model)
+            {
+                <tr>
+                    <td>@control.Nombre</td>
+                    <td>@control.TipoControl</td>
+                    <td>@control.Descripcion</td>
+                    <td>@control.Eficacia </td> <!-- Nueva columna -->
+
+
+                    <td>
+                        <a asp-action="Details" asp-route-id="@control.Nombre">Detalles</a> |
+                        <a asp-action="Edit" asp-route-id="@control.Nombre">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@control.Nombre">Eliminar</a>
+                    </td>
+ 
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11">No hay riesgos disponibles.</td>
+            </tr>
+        }
+    </tbody>
+</table>
