@@ -1,11 +1,12 @@
-﻿using SeguridadInformática.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace SeguridadInformática.Models
 {
     public class Control
     {
         [Key]
+        public string Id_Control { get; set; }
+        [Required]
         public string Nombre { get; set; }
         [Required]
         public string Descripcion { get;  set; }
@@ -15,20 +16,23 @@ namespace SeguridadInformática.Models
         [Required]
         public float Eficacia { get; set; }
 
-        //private List<Riesgo> riesgos = new List<Riesgo>();
+        public List<Riesgo> listaDeRiesgos { get; set; }
 
-        public Control(string nombre, string descripcion, string tipoControl, float eficacia)
+        public Control(string Id_Control, string nombre, string descripcion, string tipoControl, float eficacia)
         {
+            this.Id_Control = Id_Control;
             Nombre = nombre;
             Descripcion = descripcion;
             TipoControl = tipoControl;
             Eficacia = eficacia;
+            listaDeRiesgos = new List<Riesgo>(); // Inicializar la lista de riesgos aquí
         }
 
         public Control()
         {
-
+            listaDeRiesgos = new List<Riesgo>(); // Inicializar también aquí
         }
+
 
         public bool ModificarControl(Control controlNuevo)
         {

@@ -4,32 +4,33 @@
 }
 
 <h1>@ViewData["Title"]</h1>
+<style>
+    .no-click {
+        pointer-events: none;
+    }
+</style>
 
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input type="hidden" asp-for="Nombre" />
+    <input type="hidden" asp-for="Id_Control" />
 
     <div class="form-group">
-        <label asp-for="Descripcion" class="control-label"></label>
-        <input asp-for="Descripcion" class="form-control" />
-        <span asp-validation-for="Descripcion" class="text-danger"></span>
+        <label class="control-label">Descripción:</label>
+        <p>@Model.Descripcion</p>
     </div>
 
     <div class="form-group">
-        <label asp-for="TipoControl"></label>
-        <select asp-for="TipoControl" asp-items="@ViewBag.TipoControlOptions" class="form-control"></select>
-        <span asp-validation-for="TipoControl" class="text-danger"></span>
+        <label>TipoControl:</label>
+        <p>@Model.TipoControl.ToString()</p>
     </div>
 
     <div class="form-group">
-        <label asp-for="Eficacia" class="control-label"></label>
-        <input asp-for="Eficacia" type="number" class="form-control" />
-        <span asp-validation-for="Eficacia" class="text-danger"></span>
+        <label>Eficacia:</label>
+        <p>@Model.Eficacia</p>
     </div>
 
     <!-- Agrega los demás campos según sea necesario -->
-
 </form>
 
 <div>

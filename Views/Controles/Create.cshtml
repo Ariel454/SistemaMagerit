@@ -38,8 +38,48 @@
         <span asp-validation-for="Eficacia" class="text-danger"></span>
     </div>
 
+    <select id="riesgosDisponibles" class="form-control" multiple>
+        @foreach (var riesgo in ViewBag.ListaRiesgos)
+        {
+            <option value="@riesgo.Value">@riesgo.Text</option>
+        }
+    </select>
+
+    <button type="button" id="agregarRiesgo">Agregar Riesgo</button>
+
+    <ul id="listaRiesgosSeleccionados">
+        <!-- Aquí se mostrarán los riesgos seleccionados -->
+    </ul>
+
+    <!-- Al enviar el formulario, esta lista se enviará también -->
+    <input type="hidden" name="riesgosSeleccionados" id="riesgosSeleccionados" value="" />
+
+
+
+
 
     <!-- Otros campos según sea necesario -->
     <!-- Botón para guardar -->
     <button type="submit" class="btn btn-primary">Guardar</button>
 </form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#agregarRiesgo').click(function () {
+                $('#riesgosDisponibles :selected').each(function (i, selected) {
+                    var riesgoId = $(selected).val();
+                    var riesgoNombre = $(selected).text();
+
+                    // Agregar a la lista visual en la interfaz de usuario
+                    $('#listaRiesgosSeleccionados').append($('<li>').text(riesgoNombre).attr('data-riesgo-id', riesgoId));
+
+                    // Agregar a la lista que se enviará en el formulario
+                    var riesgosActuales = $('#riesgosSeleccionados').val();
+                    $('#riesgosSeleccionados').val(riesgosActuales + (riesgosActuales ? ',' : '') + riesgoId);
+                });
+            });
+        });
+    </script>
+
+}

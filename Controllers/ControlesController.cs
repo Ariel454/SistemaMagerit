@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SeguridadInformática.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 
 namespace SistemaMagerit.Controllers
@@ -10,13 +8,9 @@ namespace SistemaMagerit.Controllers
 public class ControlesController : Controller
     {
         // Lista estática para almacenar los controles
-        public static List<Control> listaDeControles = new List<Control>()
-          {
-            new Control { Nombre = "Modificacion_Del_Riesgo", Descripcion = "Descripción 1", TipoControl = null, Eficacia = 5 },
-            new Control { Nombre = "Retencion_Del_Riesgo", Descripcion = "Descripción 2", TipoControl = null, Eficacia = 7 },
-            // Agrega más controles según sea necesario
-           };
-
+        public static List<Control> listaDeControles = new List<Control>();
+        //public static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
+        public static int idCounter = 1;
 
 
         // GET: ControlesController
@@ -29,50 +23,56 @@ public class ControlesController : Controller
         // GET: ControlesController/Create
         public IActionResult Create()
         {
-            // Preparar datos para los ComboBox
-   
             ViewBag.TipoControlOptions = Enum.GetValues(typeof(TipoControl));
             ViewBag.EficaciaOptions = new List<float> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
-            List<SelectListItem> itemsDeControles = listaDeControles
-            .Select(control => new SelectListItem { Text = control.Nombre, Value = control.Nombre })
+
+            // Preparar la lista de riesgos para el dropdown
+            List<SelectListItem> itemsDeRiesgos = RiesgosController.listaDeRiesgos
+                .Select(riesgo => new SelectListItem { Text = riesgo.Nombre, Value = riesgo.Id_Riesgo.ToString() })
                 .ToList();
-
-            // Pasar la lista de SelectListItem a SelectList
-            ViewBag.ListaControles = new SelectList(itemsDeControles, "Value", "Text");
-
+            ViewBag.ListaRiesgos = new SelectList(itemsDeRiesgos, "Value", "Text");
 
             return View();
         }
-
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Control control)
+        public IActionResult Create(Control control, string riesgosSeleccionados)
         {
-            // Verificar si ya existe un control con el mismo nombre
-            if (BuscarControlPorNombre(control.Nombre) == null)
-            {
-                // Agregar el nuevo control a la lista
-                listaDeControles.Add(control);
+            control.Id_Control = "C0" + idCounter++;
+            control.listaDeRiesgos = new List<Riesgo>();
 
-                // Redirigir a la acción Index
-                return RedirectToAction("Index");
+            // Asegúrate de que riesgosSeleccionados no sea nulo o vacío antes de procesarlo
+            if (!string.IsNullOrWhiteSpace(riesgosSeleccionados))
+            {
+                var riesgoIds = riesgosSeleccionados.Split(',');
+                foreach (var riesgoId in riesgoIds)
+                {
+                    var riesgoEncontrado = RiesgosController.listaDeRiesgos.FirstOrDefault(riesgo => riesgo.Id_Riesgo == riesgoId.ToString());
+                    if (riesgoEncontrado != null)
+                    {
+                        control.listaDeRiesgos.Add(riesgoEncontrado);
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("No agrega no se xq");
+                    }
+                }
             }
 
-            // Si ya existe un control con el mismo nombre, puedes manejarlo según tus necesidades
-            ModelState.AddModelError("Nombre", "Ya existe un control con este nombre.");
-            return View(control);
+            listaDeControles.Add(control);
+
+            return RedirectToAction("Index");
         }
-
         // GET: ControlesController/Details/5
-        public ActionResult Details(string nombre)
+        public ActionResult Details(string Id_Control)
         {
-            Control control = listaDeControles.FirstOrDefault(c => c.Nombre == nombre);
-
+            Control control = BuscarControlPorId(Id_Control);
+            /*
             if (control == null)
             {
                 // Si no se encuentra el control, redirigir al listado de controles
                 return RedirectToAction("Index");
-            }
+            }*/
 
             // Preparar ViewBag para los dropdowns en la vista de detalles
             ViewBag.TipoControlOptions = Enum.GetValues(typeof(TipoControl));
@@ -82,29 +82,20 @@ public class ControlesController : Controller
         }
 
         // GET: ControlesController/Edit/5
-       public ActionResult Edit(string nombre)
+       public ActionResult Edit(string Id_Control)
         {
             // Buscar el control en la lista por el nombre utilizando el método BuscarControlPorNombre
-            Control control = listaDeControles.FirstOrDefault(c => c.Nombre == nombre);
-            Console.WriteLine("##############################"+control.Nombre);
-
-            if (control == null)
-            {
-                   // Si no se encuentra el control, redirigir al listado de controles
-                return RedirectToAction("Index");
-            }
+            Control control = BuscarControlPorId(Id_Control);
 
             // Preparar ViewBag para los dropdowns en la vista de edición
             ViewBag.TipoControlOptions = Enum.GetValues(typeof(TipoControl));
             ViewBag.EficaciaOptions = new List<float> { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
 
-            // Agrega más ViewBag según sea necesario
-            List<SelectListItem> itemsDeControles = listaDeControles
-            .Select(control => new SelectListItem { Text = control.Nombre, Value = control.Nombre })
-            .ToList();
-
-            // Pasar la lista de SelectListItem a SelectList
-            ViewBag.ListaControles = new SelectList(itemsDeControles, "Value", "Text");
+            // Preparar la lista de riesgos para el dropdown
+            List<SelectListItem> itemsDeRiesgos = RiesgosController.listaDeRiesgos
+                .Select(riesgo => new SelectListItem { Text = riesgo.Nombre, Value = riesgo.Id_Riesgo.ToString() })
+                .ToList();
+            ViewBag.ListaRiesgos = new SelectList(itemsDeRiesgos, "Value", "Text");
 
 
             return View(control);
@@ -114,12 +105,12 @@ public class ControlesController : Controller
         // POST: Controles/Edit/Modificacion_Del_Riesgo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(string nombre, Control control)
+        public ActionResult Edit(string idControl, Control control)
         {
             if (ModelState.IsValid)
             {
                 // Buscar el control en la lista por el nombre proporcionado
-                Control controlExistente = listaDeControles.FirstOrDefault(c => c.Nombre == nombre);
+                Control controlExistente = BuscarControlPorId(idControl);
 
                 if (controlExistente != null)
                 {
@@ -145,22 +136,32 @@ public class ControlesController : Controller
 
 
         // GET: ControlesController/Delete/5
-        public ActionResult Delete(string nombre)
+        public ActionResult Delete(string Id_Control)
         {
-            Control controlEliminar = BuscarControlPorNombre(nombre);
-
-            if (controlEliminar != null)
-            {
-                listaDeControles.Remove(controlEliminar);
-            }
+            Control control = BuscarControlPorId(Id_Control);
+            listaDeControles.Remove(control);
 
             return RedirectToAction(nameof(Index));
         }
+        // POST: ControlesController/Delete/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Delete(string id, IFormCollection collection)
+        {
+            try
+            {
+                return RedirectToAction(nameof(Index));
+            }
+            catch
+            {
+                return View();
+            }
+        }
 
         // Función para buscar un control por nombre
-        private Control BuscarControlPorNombre(string nombre)
+        public Control BuscarControlPorId(string Id_Control)
         {
-            return listaDeControles.FirstOrDefault(c => c.Nombre == nombre);
+            return listaDeControles.FirstOrDefault(c => c.Id_Control == Id_Control);
         }
 
         private void ConfigurarViewBag()

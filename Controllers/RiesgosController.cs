@@ -12,7 +12,7 @@ namespace SistemaMagerit.Controllers
     {
 
         // Lista estática para almacenar los riesgos
-        private static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
+        public static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
         public static int idCounter = 1;
 
         // GET: RiesgosController
