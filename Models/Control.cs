@@ -1,57 +1,54 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SeguridadInformática.Enums;
+using System.ComponentModel.DataAnnotations;
+
 namespace SeguridadInformática.Models
 {
     public class Control
     {
         [Key]
-        public int Id_Control { get; set; }
-        public string? Nombre { get; set; }
-        public string? Descripcion { get; set; }
-        public TipoControl Tipo { get; set; }
+        public string Nombre { get; set; }
+        [Required]
+        public string Descripcion { get;  set; }
+        [Required]
+        public string TipoControl { get;  set; }
+
+        [Required]
         public float Eficacia { get; set; }
-        private List<Riesgo> riesgos = new List<Riesgo>();
-        public Control(string nombre, string descripcion, TipoControl Tipo, float Eficacia)
+
+        //private List<Riesgo> riesgos = new List<Riesgo>();
+
+        public Control(string nombre, string descripcion, string tipoControl, float eficacia)
         {
             Nombre = nombre;
             Descripcion = descripcion;
-            Tipo = Tipo;
-            Eficacia = Eficacia;
+            TipoControl = tipoControl;
+            Eficacia = eficacia;
         }
 
-        public bool AgregarRiesgo(Riesgo riesgoNuevo)
+        public Control()
         {
-            if (BuscarRiesgoPorNombre(riesgoNuevo.Nombre) == null)
-            {
-                riesgos.Add(riesgoNuevo);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+
         }
 
-        public Riesgo BuscarRiesgoPorNombre(string nombreBuscar)
+        public bool ModificarControl(Control controlNuevo)
         {
-            foreach (var riesgo in riesgos)
-            {
-                if (riesgo.Nombre == nombreBuscar)
-                {
-                    return riesgo;
-                }
-            }
-            return null;
+            Nombre = controlNuevo.Nombre;
+            Descripcion = controlNuevo.Descripcion;
+            TipoControl = controlNuevo.TipoControl;
+            Eficacia = controlNuevo.Eficacia;
+
+            return true;
         }
 
-        public List<Riesgo> Riesgos
-        {
-            get => riesgos;
-            set => riesgos = value;
-        }
+
+
+        // Otros métodos get y set...
 
         public override string ToString()
         {
-            return $"Control{{nombre={Nombre}, descripcion={Descripcion}, tipoControl={Tipo}, eficaciaEsperada={Eficacia}}}";
+            return $"Control{{nombre={Nombre}, descripcion={Descripcion}, tipoControl={TipoControl}, eficacia={Eficacia}}}";
         }
+
+       
     }
 }
