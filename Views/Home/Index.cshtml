@@ -1,8 +1,28 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model SeguridadInformática.Models.LoginModel
+@{
+    ViewData["Title"] = "Iniciar Sesión";
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Ajusta la ruta según la estructura de tu proyecto
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>@ViewData["Title"]</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <text>¡Ya estás autenticado!</text>
+}
+else
+{
+    <form method="post">
+        <div class="form-group">
+            <label for="NombreUsuario">Nombre de Usuario:</label>
+            <input type="text" id="NombreUsuario" name="NombreUsuario" asp-for="NombreUsuario" class="form-control" required />
+        </div>
+
+        <div class="form-group">
+            <label for="Contraseña">Contraseña:</label>
+            <input type="password" id="Contraseña" name="Contraseña" asp-for="Contraseña" class="form-control" required />
+        </div>
+
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
+}

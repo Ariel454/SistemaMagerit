@@ -19,6 +19,7 @@ namespace SistemaMagerit.Controllers
         {
             // Pasa la lista de activos como modelo
             return View("Views/Activos/Index.cshtml", listaDeActivos);
+
         }
 
 
