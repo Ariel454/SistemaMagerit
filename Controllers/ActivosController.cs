@@ -48,6 +48,9 @@ namespace SistemaMagerit.Controllers
             // Agregar el nuevo activo a la lista
             listaDeActivos.Add(activo);
 
+            // Agrega el mensaje a TempData
+            TempData["Message"] = "Se ha creado un activo.";
+
             // Redirigir a la acción Index
             return RedirectToAction("Index");
         }

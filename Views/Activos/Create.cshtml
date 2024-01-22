@@ -5,6 +5,7 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<div style="width: 75%;">
 <form asp-action="Create" method="post">
     <div class="form-group">
         <label asp-for="Nombre"></label>
@@ -14,13 +15,13 @@
 
     <div class="form-group">
         <label asp-for="TipoActivo"></label>
-        <select asp-for="TipoActivo" asp-items="new SelectList(ViewBag.TipoActivoOptions)"></select>
+        <select asp-for="TipoActivo" asp-items="new SelectList(ViewBag.TipoActivoOptions)" class="form-control"></select>
         <span asp-validation-for="TipoActivo" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="TipoTag"></label>
-        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)"></select>
+        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)" class="form-control" onchange="cargarOpcionesTercerCombo()"></select>
         <span asp-validation-for="TipoTag" class="text-danger"></span>
     </div>
 
@@ -32,25 +33,25 @@
 
     <div class="form-group">
         <label asp-for="Confidencialidad"></label>
-        <select asp-for="Confidencialidad" asp-items="new SelectList(ViewBag.ValoracionCortaOptions)"></select>
+        <select asp-for="Confidencialidad" asp-items="new SelectList(ViewBag.ValoracionCortaOptions)" class="form-control"></select>
         <span asp-validation-for="Confidencialidad" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Integridad"></label>
-        <select asp-for="Integridad" asp-items="new SelectList(ViewBag.ValoracionIntegridadOptions)"></select>
+        <select asp-for="Integridad" asp-items="new SelectList(ViewBag.ValoracionIntegridadOptions)" class="form-control"></select>
         <span asp-validation-for="Integridad" class="text-danger"></span>
     </div>
 
     <div class="form-group">
         <label asp-for="Disponibilidad"></label>
-        <select asp-for="Disponibilidad" asp-items="new SelectList(ViewBag.ValoracionLargaOptions)"></select>
+        <select asp-for="Disponibilidad" asp-items="new SelectList(ViewBag.ValoracionLargaOptions)" class="form-control"></select>
         <span asp-validation-for="Disponibilidad" class="text-danger"></span>
     </div>
 
     <!-- Agrega los demás campos según sea necesario -->
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
+    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Guardar</button>
 </form>
 
 @section Scripts {
@@ -90,15 +91,17 @@
             }
         }
 
-        // Función para agregar las opciones al combo
-        function cargarOpcionesEnum(select, opciones) {
-            for (var i = 0; i < opciones.length; i++) {
-                var option = document.createElement("option");
-                option.value = opciones[i];
-                option.text = opciones[i];
-                select.append(option);
-            }
+        // Función para cargar las opciones en el tercer combo
+        function cargarOpcionesEnum(selectElement, optionsArray) {
+            optionsArray.forEach(function (optionValue) {
+                selectElement.append(new Option(optionValue, optionValue));
+            });
         }
+
+        // Llamada a la función cuando se cambia la selección en el segundo combo
+        $("#tipoTag").change(function () {
+            cargarOpcionesTercerCombo();
+        });
 
         // Llamar a la función al cargar la página
         $(document).ready(function () {
@@ -117,3 +120,4 @@
         });
     </script>
 }
+

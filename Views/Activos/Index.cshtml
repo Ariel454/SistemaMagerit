@@ -1,6 +1,14 @@
 ﻿@model IEnumerable<SeguridadInformática.Models.Activo>
+
 @{
     ViewData["Title"] = "Listado de Activos";
+}
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" id="tempMessage">
+       5 @TempData["5" + "Message"]
+    </div>
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -9,51 +17,63 @@
     <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
 </p>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nombre</th>
-            <th>Tipo de Activo</th>
-            <th>Tipo de Tag</th>
-            <th>Tag Activo</th>
-            <th>Confidencialidad</th>
-            <th>Integridad</th>
-            <th>Disponibilidad</th>
-            <th>Valoración</th>
-            <!-- Agrega más columnas según sea necesario -->
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null)
-        {
-            @foreach (var activo in Model)
+<!-- Se ha añadido la clase 'table-responsive' para hacer la tabla responsiva -->
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Tipo de Activo</th>
+                <th>Tipo de Tag</th>
+                <th>Tag Activo</th>
+                <th>Confidencialidad</th>
+                <th>Integridad</th>
+                <th>Disponibilidad</th>
+                <th>Valoración</th>
+                <!-- Agrega más columnas según sea necesario -->
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any()) // Se verifica si el modelo no es nulo y si tiene elementos
+            {
+                foreach (var activo in Model)
+                {
+                    <tr>
+                        <td>@activo.Id_Activo</td>
+                        <td>@activo.Nombre</td>
+                        <td>@activo.TipoActivo</td>
+                        <td>@activo.TipoTag</td>
+                        <td>@activo.TagActivo</td>
+                        <td>@activo.Confidencialidad</td>
+                        <td>@activo.Integridad</td>
+                        <td>@activo.Disponibilidad</td>
+                        <td>@activo.CalcularValoracion()</td>
+                        <!-- Agrega más columnas según sea necesario -->
+                        <td>
+                            <a asp-action="Details" asp-route-id="@activo.Id_Activo">Detalles</a> |
+                            <a asp-action="Edit" asp-route-id="@activo.Id_Activo">Editar</a> |
+                            <a asp-action="Delete" asp-route-id="@activo.Id_Activo">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            }
+            else
             {
                 <tr>
-                    <td>@activo.Id_Activo</td>
-                    <td>@activo.Nombre</td>
-                    <td>@activo.TipoActivo</td>
-                    <td>@activo.TipoTag</td>
-                    <td>@activo.TagActivo</td>
-                    <td>@activo.Confidencialidad</td>
-                    <td>@activo.Integridad</td>
-                    <td>@activo.Disponibilidad</td>
-                    <td>@activo.CalcularValoracion()</td>
-                    <!-- Agrega más columnas según sea necesario -->
-                    <td>
-                        <a asp-action="Details" asp-route-id="@activo.Id_Activo">Detalles</a> |
-                        <a asp-action="Edit" asp-route-id="@activo.Id_Activo">Editar</a> |
-                        <a asp-action="Delete" asp-route-id="@activo.Id_Activo">Eliminar</a>
-                    </td>
+                    <td colspan="10">No hay activos disponibles.</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="10">No hay activos disponibles.</td>
-            </tr>
-        }
-    </tbody>
-</table>
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        // Esperar 3 segundos (3000 milisegundos) y luego ocultar el mensaje
+        setTimeout(function () {
+            $('#tempMessage').fadeOut('fast');
+        }, 3000); // <-- Tiempo en milisegundos
+    </script>
+}
