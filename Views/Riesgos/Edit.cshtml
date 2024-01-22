@@ -1,6 +1,6 @@
-﻿@model SeguridadInformática.Models.Activo
+﻿@model SeguridadInformática.Models.Riesgo
 @{
-    ViewData["Title"] = "Editar Activo";
+    ViewData["Title"] = "Editar Riesgo";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -8,49 +8,62 @@
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input type="hidden" asp-for="Id_Activo" />
+    <input type="hidden" asp-for="Id_Riesgo" />
 
     <div class="form-group">
-        <label asp-for="Nombre" class="control-label"></label>
+        <label asp-for="Nombre"></label>
         <input asp-for="Nombre" class="form-control" />
         <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="TipoActivo" class="control-label"></label>
-        <select asp-for="TipoActivo" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.TipoDeActivo>()" class="form-control"></select>
-        <span asp-validation-for="TipoActivo" class="text-danger"></span>
+        <label asp-for="Descripcion"></label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="TipoTag"></label>
-        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)" class="form-control"></select>
-        <span asp-validation-for="TipoTag" class="text-danger"></span>
+        <label asp-for="CategoriaAmenaza"></label>
+        <select asp-for="CategoriaAmenaza" asp-items="@(new SelectList(ViewBag.CategoriasAmenaza))"></select>
+        <span asp-validation-for="CategoriaAmenaza" class="text-danger"></span>
     </div>
 
-    <div class="form-group" id="tagDetailsContainer">
-        <label asp-for="TagActivo"></label>
-        <select asp-for="TagActivo" id="tagActivo" asp-items="new SelectList(ViewBag.TipoTagOptions)" class="form-control"></select>
-        <span asp-validation-for="TagActivo" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="Confidencialidad" class="control-label"></label>
-        <select asp-for="Confidencialidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionCorta>()" class="form-control"></select>
-        <span asp-validation-for="Confidencialidad" class="text-danger"></span>
+    <div class="form-group" id="tagDetailsContainer" style="display:none;">
+        <label asp-for="TagCategoria"></label>
+        <select asp-for="TagCategoria" id="tagCategoria" class="form-control"></select>
+        <span asp-validation-for="TagCategoria" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Integridad" class="control-label"></label>
-        <select asp-for="Integridad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionIntegridad>()" class="form-control"></select>
-        <span asp-validation-for="Integridad" class="text-danger"></span>
+        <label asp-for="Vulnerabilidad"></label>
+        <select asp-for="Vulnerabilidad" asp-items="new SelectList(ViewBag.VulnerabilidadOptions)"></select>
+        <span asp-validation-for="Vulnerabilidad" class="text-danger"></span>
     </div>
 
     <div class="form-group">
-        <label asp-for="Disponibilidad" class="control-label"></label>
-        <select asp-for="Disponibilidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionLarga>()" class="form-control"></select>
-        <span asp-validation-for="Disponibilidad" class="text-danger"></span>
+        <label asp-for="NivelAceptableDeRiesgo"></label>
+        <input asp-for="NivelAceptableDeRiesgo" class="form-control" />
+        <span asp-validation-for="NivelAceptableDeRiesgo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="NivelDeRiesgo"></label>
+        <input asp-for="NivelDeRiesgo" class="form-control" />
+        <span asp-validation-for="NivelDeRiesgo" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Impacto"></label>
+        <select asp-for="Impacto" asp-items="new SelectList(ViewBag.ImpactoOptions)"></select>
+        <span asp-validation-for="Impacto" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="PosibilidadDeOcurrir"></label>
+        <select asp-for="PosibilidadDeOcurrir" asp-items="new SelectList(ViewBag.PosibilidadOptions)"></select>
+        <span asp-validation-for="PosibilidadDeOcurrir" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="ActivoEnRiesgo"></label>
+        <select asp-for="ActivoEnRiesgo.Id_Activo" asp-items="@(ViewBag.ListaActivos)"></select>
+        <span asp-validation-for="ActivoEnRiesgo" class="text-danger"></span>
     </div>
 
     <!-- Agrega los demás campos según sea necesario -->
@@ -69,36 +82,28 @@
     <script>
         // Función para cargar las opciones del tercer combo basado en la selección del segundo combo
         function cargarOpcionesTercerCombo() {
-            var tipoTag = $("#tipoTag").val();
-            var tagActivo = $("#tagActivo");
+            var tipoCategoria = $("#CategoriaAmenaza").val(); // Cambiado a "CategoriaAmenaza"
+            var tagCategoria = $("#tagCategoria");
 
             // Limpiar las opciones actuales
-            tagActivo.empty();
+            tagCategoria.empty();
 
             // Obtener las opciones basado en el valor seleccionado en el segundo combo
-            switch (tipoTag) {
-                case "Software":
-                    cargarOpcionesEnum(tagActivo, ["SW", "PRP", "SUB", "STD", "BROWSER", "WWW", "APP", "DBMS", "BACKUP"]);
+            switch (tipoCategoria) {
+                case "DESASTRES_NATURALES":
+                    cargarOpcionesEnum(tagCategoria, ["Fuego", "Daños Por Agua", "Desastres Naturales"]);
                     break;
-                case "Servicios":
-                    cargarOpcionesEnum(tagActivo, ["ANON", "PUB", "EXT", "INT", "WWW", "TELNET", "EMAIL", "FILE"]);
+                case "ORIGEN_INDUSTRIAL":
+                    cargarOpcionesEnum(tagCategoria, ["Fuego", "Daños Por Agua", "Desastres Naturales", "Contaminación Mecánica", "Contaminación Electromagnética", "Avería de Origen Físico o Lógico", "Corte del Suministro Eléctrico", "Condiciones inadecuadas de temperatura o humedad", "Fallo de servicios de comunicaciones", "Interrupción de otros servicios y suministros esenciales", "Degradación de los soportes de almacenamiento de la información", "Emanaciones electromagnéticas"]);
                     break;
-                case "Instalaciones":
-                    cargarOpcionesEnum(tagActivo, ["SITE", "BUILDING", "LOCAL", "MOBILE", "CAR", "PLANE", "SHIP", "SHELTER", "CHANNEL", "BACKUP"]);
+                case "NO_INTENCIONADOS":
+                    cargarOpcionesEnum(tagCategoria, ["Errores de los usuarios", "Errores del administrador", "Errores de monitorización (log)", "Errores de configuración", "Deficiencias en la organización", "Difusión de software dañino", "Errores de [re-]encaminamiento", "Errores de secuencia", "Escapes de información", "Alteración accidental de la información", "Destrucción de información", "Fugas de información", "Vulnerabilidades de los programas (software)", "Errores de mantenimiento / actualización de programas (software)", "Errores de mantenimiento / actualización de equipos (hardware)", "Caída del sistema por agotamiento de recursos", "Pérdida de equipos", "Indisponibilidad del personal"]);
                     break;
-                case "Equipamiento_Auxiliar":
-                    cargarOpcionesEnum(tagActivo, ["POWER", "UPS", "GEN", "AC", "CABLING", "FURNITURE", "SAFE"]);
+                case "ATAQUES_INTENCIONADOS":
+                    cargarOpcionesEnum(tagCategoria, ["Manipulación de los registros de actividad (log)", "Manipulación de la configuración", "Suplantación de la identidad del usuario", "Abuso de privilegios de acceso", "Uso no previsto", "Difusión de software dañino", "[Re-]encaminamiento de mensaje", "Alteración de secuencia", "Acceso no autorizado", "Análisis de tráfico", "Repudio", "interceptación de información (escucha)", "Modificación deliberada de la información", "Destrucción de información", "Divulgación de información", "Manipulación de programas", "Manipulación de los equipos", "Denegación de servicio", "Robo", "Ataque destructivo", "Ocupación enemiga", "Indisponibilidad del personal", "Extorsión", "Ingeniería social"]);
                     break;
-                case "Equipos_Informaticos":
-                    cargarOpcionesEnum(tagActivo, ["HOST", "MID", "PC", "MOBILE", "BACKUP"]);
+                default:
                     break;
-                case "Redes_De_Comunicaciones":
-                    cargarOpcionesEnum(tagActivo, ["PSTN", "ISDN", "RADIO", "WIFI", "MOBILE", "SAT", "LAN", "MAN", "INTERNET"]);
-                    break;
-                case "Personal":
-                    cargarOpcionesEnum(tagActivo, ["UE", "UI", "OP", "ADM", "COM", "DBA"]);
-                    break;
-                // Agrega más casos según sea necesario
             }
         }
 
@@ -114,13 +119,18 @@
 
         // Llamar a la función al cargar la página
         $(document).ready(function () {
+            cargarOpcionesTercerCombo();
+
             // Manejar el evento de cambio en el segundo combo
-            $("#tipoTag").change(function () {
-                cargarOpcionesTercerCombo();
+            $("#CategoriaAmenaza").change(function () { // Cambiado a "CategoriaAmenaza"
+                var tipoCategoriaValue = $(this).val(); // Cambiado a "CategoriaAmenaza"
+                if (tipoCategoriaValue === "DESASTRES_NATURALES" || tipoCategoriaValue === "ORIGEN_INDUSTRIAL" || tipoCategoriaValue === "NO_INTENCIONADOS" || tipoCategoriaValue === "ATAQUES_INTENCIONADOS") {
+                    $("#tagDetailsContainer").show();
+                    cargarOpcionesTercerCombo();
+                } else {
+                    $("#tagDetailsContainer").hide();
+                }
             });
         });
     </script>
 }
-
-}
-

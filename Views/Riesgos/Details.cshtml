@@ -1,6 +1,6 @@
-﻿@model SeguridadInformática.Models.Activo
+﻿@model SeguridadInformática.Models.Riesgo
 @{
-    ViewData["Title"] = "Detalles Activo";
+    ViewData["Title"] = "Detalles Riesgo";
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -15,7 +15,7 @@
 <form asp-action="Edit" method="post">
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <input type="hidden" asp-for="Id_Activo" />
+    <input type="hidden" asp-for="Id_Riesgo" />
 
     <div class="form-group no-click">
         <label asp-for="Nombre" class="control-label"></label>
@@ -24,39 +24,54 @@
     </div>
 
     <div class="form-group no-click">
-        <label asp-for="TipoActivo" class="control-label"></label>
-        <select asp-for="TipoActivo" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.TipoDeActivo>()" class="form-control"></select>
-        <span asp-validation-for="TipoActivo" class="text-danger"></span>
+        <label asp-for="Descripcion" class="control-label"></label>
+        <input asp-for="Descripcion" class="form-control" />
+        <span asp-validation-for="Descripcion" class="text-danger"></span>
     </div>
 
-    <div class="form-group no-click">
-        <label asp-for="TipoTag"></label>
-        <select asp-for="TipoTag" id="tipoTag" asp-items="new SelectList(ViewBag.TagActivoOptions)" class="form-control"></select>
-        <span asp-validation-for="TipoTag" class="text-danger"></span>
+    <div class="form-group">
+        <label>Categoría Amenaza:</label>
+        <p>@Model.CategoriaAmenaza</p>
     </div>
+
 
     <div class="form-group no-click" id="tagDetailsContainer">
-        <label asp-for="TagActivo"></label>
-        <select asp-for="TagActivo" id="tagActivo" asp-items="new SelectList(ViewBag.TipoTagOptions)" class="form-control"></select>
-        <span asp-validation-for="TagActivo" class="text-danger"></span>
+        <label asp-for="TagCategoria"></label>
+        <select asp-for="TagCategoria" id="tagCategoria" asp-items="new SelectList(ViewBag.CategoriasAmenaza)" class="form-control"></select>
+        <span asp-validation-for="TagCategoria" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Vulnerabilidad:</label>
+        <p>@Model.Vulnerabilidad.ToString()</p>
+    </div>
+
+
+    <div class="form-group no-click">
+        <label asp-for="NivelAceptableDeRiesgo"></label>
+        <input asp-for="NivelAceptableDeRiesgo" class="form-control" />
+        <span asp-validation-for="NivelAceptableDeRiesgo" class="text-danger"></span>
     </div>
 
     <div class="form-group no-click">
-        <label asp-for="Confidencialidad" class="control-label"></label>
-        <select asp-for="Confidencialidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionCorta>()" class="form-control"></select>
-        <span asp-validation-for="Confidencialidad" class="text-danger"></span>
+        <label asp-for="NivelDeRiesgo"></label>
+        <input asp-for="NivelDeRiesgo" class="form-control" />
+        <span asp-validation-for="NivelDeRiesgo" class="text-danger"></span>
     </div>
 
-    <div class="form-group no-click">
-        <label asp-for="Integridad" class="control-label"></label>
-        <select asp-for="Integridad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionIntegridad>()" class="form-control"></select>
-        <span asp-validation-for="Integridad" class="text-danger"></span>
+    <div class="form-group">
+        <label>Impacto:</label>
+        <p>@Model.Impacto.ToString()</p>
     </div>
 
-    <div class="form-group no-click">
-        <label asp-for="Disponibilidad" class="control-label"></label>
-        <select asp-for="Disponibilidad" asp-items="Html.GetEnumSelectList<SeguridadInformática.Enums.ValoracionLarga>()" class="form-control"></select>
-        <span asp-validation-for="Disponibilidad" class="text-danger"></span>
+    <div class="form-group">
+        <label>PosibilidadDeOcurrir:</label>
+        <p>@Model.PosibilidadDeOcurrir.ToString()</p>
+    </div>
+
+    <div class="form-group">
+        <label>ActivoEnRiesgo:</label>
+        <p>@Model.ActivoEnRiesgo.Nombre.ToString()</p>
     </div>
 
     <!-- Agrega los demás campos según sea necesario -->
