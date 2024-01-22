@@ -12,8 +12,8 @@ public class ControlesController : Controller
         // Lista estática para almacenar los controles
         public static List<Control> listaDeControles = new List<Control>()
           {
-            new Control { Nombre = "Modificacion_Del_Riesgo", Descripcion = "Descripción 1", TipoControl = null, Eficacia = 5 },
-            new Control { Nombre = "Retencion_Del_Riesgo", Descripcion = "Descripción 2", TipoControl = null, Eficacia = 7 },
+            //new Control { Nombre = "Modificacion_Del_Riesgo", Descripcion = "Descripción 1", TipoControl = null, Eficacia = 5 },
+            //new Control { Nombre = "Retencion_Del_Riesgo", Descripcion = "Descripción 2", TipoControl = null, Eficacia = 7 },
             // Agrega más controles según sea necesario
            };
 
@@ -53,6 +53,9 @@ public class ControlesController : Controller
             {
                 // Agregar el nuevo control a la lista
                 listaDeControles.Add(control);
+
+                // Agrega el mensaje a TempData
+                TempData["Message"] = "Se ha creado un control";
 
                 // Redirigir a la acción Index
                 return RedirectToAction("Index");

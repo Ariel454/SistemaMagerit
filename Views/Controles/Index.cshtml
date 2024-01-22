@@ -4,6 +4,13 @@
     ViewData["Title"] = "Listado de Controles";
 }
 
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success" id="tempMessage">
+         @TempData["Message"]
+    </div>
+}
+
 <h1>@ViewData["Title"]</h1>
 
 <p>
@@ -49,3 +56,12 @@
         }
     </tbody>
 </table>
+
+@section Scripts {
+    <script>
+        // Esperar 3 segundos (3000 milisegundos) y luego ocultar el mensaje
+        setTimeout(function () {
+            $('#tempMessage').fadeOut('fast');
+        }, 3000); // <-- Tiempo en milisegundos
+    </script>
+}

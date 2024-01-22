@@ -53,6 +53,9 @@ namespace SistemaMagerit.Controllers
             // Asignar el objeto activo completo a ActivoEnRiesgo
             riesgo.ActivoEnRiesgo = activoSeleccionado;
 
+            // Agrega el mensaje a TempData
+            TempData["Message"] = "Se ha creado un control";
+
             listaDeRiesgos.Add(riesgo);
 
             return RedirectToAction("Index");

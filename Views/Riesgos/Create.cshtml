@@ -1,16 +1,21 @@
 ﻿@model SeguridadInformática.Models.Riesgo
+
 @{
     ViewData["Title"] = "Crear Riesgo";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<form asp-action="Create" method="post">
-    <div class="form-group">
-        <label asp-for="Nombre"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
-    </div>
+<div class="container py-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
 
     <div class="form-group">
         <label asp-for="Descripcion"></label>
@@ -18,11 +23,11 @@
         <span asp-validation-for="Descripcion" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="CategoriaAmenaza"></label>
-        <select asp-for="CategoriaAmenaza" asp-items="@(new SelectList(ViewBag.CategoriasAmenaza))"></select>
-        <span asp-validation-for="CategoriaAmenaza" class="text-danger"></span>
-    </div>
+                        <!-- Aquí va el campo de selección con el mismo estilo -->
+                        <div class="mb-3">
+                            <label asp-for="CategoriaAmenaza" class="form-label"></label>
+                            <select asp-for="CategoriaAmenaza" asp-items="@(new SelectList(ViewBag.CategoriasAmenaza))" class="form-select"></select>
+                            <span asp-validation-for="CategoriaAmenaza" class="text-danger"></span>
 
     <div class="form-group" id="tagDetailsContainer" style="display:none;">
         <label asp-for="TagCategoria"></label>
@@ -30,43 +35,43 @@
         <span asp-validation-for="TagCategoria" class="text-danger"></span>
     </div>
 
-    <div class="form-group">
-        <label asp-for="Vulnerabilidad"></label>
-        <select asp-for="Vulnerabilidad" asp-items="new SelectList(ViewBag.VulnerabilidadOptions)"></select>
-        <span asp-validation-for="Vulnerabilidad" class="text-danger"></span>
-    </div>
+                            <div class="mb-3">
+                                <label asp-for="Vulnerabilidad" class="form-label"></label>
+                                <select asp-for="Vulnerabilidad" asp-items="new SelectList(ViewBag.VulnerabilidadOptions)" class="form-select"></select>
+                                <option value="">Selecciona una opción</option>
+                                </select>
+                                <span asp-validation-for="Vulnerabilidad" class="text-danger"></span>
+                            </div>
 
-    <div class="form-group">
-        <label asp-for="NivelAceptableDeRiesgo"></label>
-        <input asp-for="NivelAceptableDeRiesgo" class="form-control" />
-        <span asp-validation-for="NivelAceptableDeRiesgo" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="NivelDeRiesgo"></label>
-        <input asp-for="NivelDeRiesgo" class="form-control" />
-        <span asp-validation-for="NivelDeRiesgo" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Impacto"></label>
-        <select asp-for="Impacto" asp-items="new SelectList(ViewBag.ImpactoOptions)"></select>
-        <span asp-validation-for="Impacto" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="PosibilidadDeOcurrir"></label>
-        <select asp-for="PosibilidadDeOcurrir" asp-items="new SelectList(ViewBag.PosibilidadOptions)"></select>
-        <span asp-validation-for="PosibilidadDeOcurrir" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ActivoEnRiesgo"></label>
-        <select asp-for="ActivoEnRiesgo.Id_Activo" asp-items="@(ViewBag.ListaActivos)"></select>
-        <span asp-validation-for="ActivoEnRiesgo" class="text-danger"></span>
-    </div>
+                            <div class="mb-3">
+                                <label asp-for="Impacto" class="form-label"></label>
+                                <select asp-for="Impacto" asp-items="new SelectList(ViewBag.ImpactoOptions)" class="form-select"></select>
+                                <span asp-validation-for="Impacto" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="PosibilidadDeOcurrir" class="form-label"></label>
+                                <select asp-for="PosibilidadDeOcurrir" asp-items="new SelectList(ViewBag.PosibilidadOptions)" class="form-select"></select>
+                                <span asp-validation-for="PosibilidadDeOcurrir" class="text-danger"></span>
+                            </div>
+
+                            <div class="mb-3">
+                                <label asp-for="ActivoEnRiesgo" class="form-label"></label>
+                                <select asp-for="ActivoEnRiesgo.Id_Activo" asp-items="@(ViewBag.ListaActivos)" class="form-select"></select>
+                                <span asp-validation-for="ActivoEnRiesgo" class="text-danger"></span>
+                            </div>
 
 
     <!-- Agrega los demás campos según sea necesario -->
 
-    <button type="submit" class="btn btn-primary">Guardar</button>
-</form>
+                            <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @section Scripts {
     <script>

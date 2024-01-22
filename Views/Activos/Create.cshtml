@@ -1,12 +1,16 @@
 ﻿@model SeguridadInformática.Models.Activo
+
 @{
     ViewData["Title"] = "Crear Activo";
 }
 
-<h1>@ViewData["Title"]</h1>
-
-<div style="width: 75%;">
-<form asp-action="Create" method="post">
+<div class="container py-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
     <div class="form-group">
         <label asp-for="Nombre"></label>
         <input asp-for="Nombre" class="form-control" />
@@ -51,8 +55,13 @@
 
     <!-- Agrega los demás campos según sea necesario -->
 
-    <button type="submit" class="btn btn-primary" style="margin-top: 20px;">Guardar</button>
-</form>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
     <script>
