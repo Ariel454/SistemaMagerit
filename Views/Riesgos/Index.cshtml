@@ -1,0 +1,61 @@
+﻿@model IEnumerable<SeguridadInformática.Models.Riesgo>
+@{
+    ViewData["Title"] = "Listado de Riesgos";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre</th>
+            <th>Descripcion</th>
+            <th>Categoría Amenaza</th>
+            <th>Amenaza</th> <!-- Nueva columna -->
+            <th>Vulnerabilidad</th>
+            <th>Riesgo Aceptado</th>
+            <th>Riesgo</th>
+            <th>Impacto</th>
+            <th>Posibilidad</th>
+            <th>Activo</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null)
+        {
+            @foreach (var riesgo in Model)
+            {
+                <tr>
+                    <td>@riesgo.Id_Riesgo</td>
+                    <td>@riesgo.Nombre</td>
+                    <td>@riesgo.Descripcion</td>
+                    <td>@riesgo.CategoriaAmenaza</td>
+                    <td>@riesgo.TagCategoria</td> <!-- Nueva columna -->
+                    <td>@riesgo.Vulnerabilidad</td>
+                    <td>@riesgo.NivelAceptableDeRiesgo</td>
+                    <td>@riesgo.NivelDeRiesgo</td>
+                    <td>@riesgo.Impacto</td>
+                    <td>@riesgo.PosibilidadDeOcurrir</td>
+                    <td>@riesgo.ActivoEnRiesgo.Nombre</td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@riesgo.Id_Riesgo">Detalles</a> |
+                        <a asp-action="Edit" asp-route-id="@riesgo.Id_Riesgo">Editar</a> |
+                        <a asp-action="Delete" asp-route-id="@riesgo.Id_Riesgo">Eliminar</a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11">No hay riesgos disponibles.</td>
+            </tr>
+        }
+    </tbody>
+</table>

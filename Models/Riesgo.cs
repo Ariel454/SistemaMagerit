@@ -4,10 +4,11 @@ namespace SeguridadInformática.Models
     public class Riesgo
     {
         [Key]
-        public int Id_Riesgo { get; set; }
+        public string Id_Riesgo { get; set; }
         public string? Nombre { get; set; }
         public string? Descripcion { get; set; }
-        public CategoriaAmenaza CategoriaAmenaza { get; set; }
+        public string CategoriaAmenaza { get; set; }
+        public string TagCategoria { get; set; } // Relación con Tag
         public Vulnerabilidades Vulnerabilidad { get; set; }
         public int NivelAceptableDeRiesgo { get; set; }
         public int NivelDeRiesgo { get; set; }
@@ -17,7 +18,7 @@ namespace SeguridadInformática.Models
         // Afecta a un activo
         public Activo ActivoEnRiesgo { get; set; }
 
-        public Riesgo(string nombre, string descripcion, CategoriaAmenaza categoriaAmenaza, Vulnerabilidades vulnerabilidad, int nivelAceptableDeRiesgo, int nivelDeRiesgo, string impacto, int posibilidadDeOcurrir, Activo activo)
+        public Riesgo(string nombre, string descripcion, string categoriaAmenaza, Vulnerabilidades vulnerabilidad, int nivelAceptableDeRiesgo, int nivelDeRiesgo, string impacto, int posibilidadDeOcurrir, Activo activo)
         {
             Nombre = nombre;
             Descripcion = descripcion;
@@ -28,6 +29,11 @@ namespace SeguridadInformática.Models
             Impacto = impacto;
             PosibilidadDeOcurrir = posibilidadDeOcurrir;
             ActivoEnRiesgo = activo;
+        }
+
+        public Riesgo()
+        {
+            // Constructor sin parámetros
         }
 
         public bool ModificarRiesgo(Riesgo riesgoNuevo)
