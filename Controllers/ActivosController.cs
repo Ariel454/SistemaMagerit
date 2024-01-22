@@ -11,7 +11,7 @@ namespace SistemaMagerit.Controllers
     {
 
         // Lista estática para almacenar los activos
-        private static List<Activo> listaDeActivos = new List<Activo>();
+        public static List<Activo> listaDeActivos = new List<Activo>();
         public static int idCounter = 1;
 
         // GET: ActivosController
