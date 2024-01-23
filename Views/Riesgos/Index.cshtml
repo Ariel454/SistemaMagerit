@@ -12,9 +12,12 @@
 
 <h1>@ViewData["Title"]</h1>
 
-<p>
+<div class="d-flex justify-content-start mb-3">
+    <a href="@Url.Action("Index", "Home")" class="btn btn-primary me-2">Ir a Inicio</a>
     <a asp-action="Create" class="btn btn-success">Crear Nuevo</a>
-</p>
+</div>
+
+
 
 <table class="table">
     <thead>

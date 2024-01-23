@@ -4,64 +4,73 @@
     ViewData["Title"] = "Crear Control";
 }
 
-<h1>@ViewData["Title"]</h1>
+<div class="container py-5">
+    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+    <div class="row justify-content-center">
+        <div class="col-lg-6">
+            <div class="card shadow">
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label"></label>
+                            <input asp-for="Nombre" class="form-control" />
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
 
-<form asp-action="Create" method="post">
-    <!-- Campos del modelo Control -->
-    <div class="form-group">
-        <label asp-for="Nombre"></label>
-        <input asp-for="Nombre" class="form-control" />
-        <span asp-validation-for="Nombre" class="text-danger"></span>
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label"></label>
+                            <input asp-for="Descripcion" class="form-control" />
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="TipoControl" class="form-label"></label>
+                            <select asp-for="TipoControl" class="form-control">
+                                @foreach (var tipoControl in Enum.GetValues(typeof(SeguridadInformática.Models.TipoControl)))
+                                {
+                                    <option value="@tipoControl">@tipoControl</option>
+                                }
+                            </select>
+                            <span asp-validation-for="TipoControl" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Eficacia" class="form-label"></label>
+                            <input asp-for="Eficacia" type="number" class="form-control" min="0" max="10" step="0.1" />
+                            <span asp-validation-for="Eficacia" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="riesgosDisponibles" class="form-label">Riesgos Disponibles</label>
+                            <select id="riesgosDisponibles" class="form-control" multiple>
+                                @foreach (var riesgo in ViewBag.ListaRiesgos)
+                                {
+                                    <option value="@riesgo.Value">@riesgo.Text</option>
+                                }
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <button type="button" id="agregarRiesgo" class="btn btn-secondary">Agregar Riesgo</button>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="listaRiesgosSeleccionados" class="form-label">Riesgos Seleccionados</label>
+                            <ul id="listaRiesgosSeleccionados" class="list-group">
+                                <!-- Aquí se mostrarán los riesgos seleccionados -->
+                            </ul>
+                        </div>
+
+                        <!-- Al enviar el formulario, esta lista se enviará también -->
+                        <input type="hidden" name="riesgosSeleccionados" id="riesgosSeleccionados" value="" />
+
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Descripcion"></label>
-        <input asp-for="Descripcion" class="form-control" />
-        <span asp-validation-for="Descripcion" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="TipoControl"></label>
-        <select asp-for="TipoControl" class="form-control">
-            @foreach (var tipoControl in Enum.GetValues(typeof(SeguridadInformática.Models.TipoControl)))
-            {
-                <option value="@tipoControl">@tipoControl</option>
-            }
-        </select>
-        <span asp-validation-for="TipoControl" class="text-danger"></span>
-    </div>
-
-
-    <div class="form-group">
-        <label asp-for="Eficacia"></label>
-        <input asp-for="Eficacia" type="number" class="form-control" min="0" max="10" step="0.1" />
-        <span asp-validation-for="Eficacia" class="text-danger"></span>
-    </div>
-
-    <select id="riesgosDisponibles" class="form-control" multiple>
-        @foreach (var riesgo in ViewBag.ListaRiesgos)
-        {
-            <option value="@riesgo.Value">@riesgo.Text</option>
-        }
-    </select>
-
-    <button type="button" id="agregarRiesgo">Agregar Riesgo</button>
-
-    <ul id="listaRiesgosSeleccionados">
-        <!-- Aquí se mostrarán los riesgos seleccionados -->
-    </ul>
-
-    <!-- Al enviar el formulario, esta lista se enviará también -->
-    <input type="hidden" name="riesgosSeleccionados" id="riesgosSeleccionados" value="" />
-
-
-
-
-
-    <!-- Otros campos según sea necesario -->
-    <!-- Botón para guardar -->
-    <button type="submit" class="btn btn-primary">Guardar</button>
-</form>
+</div>
 
 @section Scripts {
     <script>
@@ -72,7 +81,7 @@
                     var riesgoNombre = $(selected).text();
 
                     // Agregar a la lista visual en la interfaz de usuario
-                    $('#listaRiesgosSeleccionados').append($('<li>').text(riesgoNombre).attr('data-riesgo-id', riesgoId));
+                    $('#listaRiesgosSeleccionados').append($('<li>').text(riesgoNombre).attr('data-riesgo-id', riesgoId).addClass('list-group-item'));
 
                     // Agregar a la lista que se enviará en el formulario
                     var riesgosActuales = $('#riesgosSeleccionados').val();
@@ -81,5 +90,5 @@
             });
         });
     </script>
-
 }
+
