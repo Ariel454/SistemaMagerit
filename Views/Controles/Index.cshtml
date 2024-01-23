@@ -7,7 +7,7 @@
 @if (TempData["Message"] != null)
 {
     <div class="alert alert-success" id="tempMessage">
-         @TempData["Message"]
+        @TempData["Message"]
     </div>
 }
 
@@ -23,7 +23,8 @@
             <th>Nombre</th>
             <th>Tipo Control</th>
             <th>Descripción</th>
-            <th>Eficacia esperada</th> <!-- Nueva columna -->
+            <th>Eficacia esperada</th>
+            <th>Riesgos Asociados</th> <!-- Nueva columna para riesgos -->
             <th>Acciones</th>
         </tr>
     </thead>
@@ -36,32 +37,23 @@
                     <td>@control.Nombre</td>
                     <td>@control.TipoControl</td>
                     <td>@control.Descripcion</td>
-                    <td>@control.Eficacia </td> <!-- Nueva columna -->
-
-
+                    <td>@control.Eficacia </td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@control.Nombre">Detalles</a> |
-                        <a asp-action="Edit" asp-route-id="@control.Nombre">Editar</a> |
-                        <a asp-action="Delete" asp-route-id="@control.Nombre">Eliminar</a>
+                        @string.Join(", ", control.listaDeRiesgos.Select(riesgo => riesgo.Nombre))
                     </td>
- 
+                    <td>
+                        <a asp-action="Details" asp-route-Id_Control="@control.Id_Control">Ver Detalles</a> |
+                        <a asp-action="Edit" asp-route-Id_Control="@control.Id_Control">Editar</a> |
+                        <a asp-action="Delete" asp-route-Id_Control="@control.Id_Control">Eliminar</a>
+                    </td>
                 </tr>
             }
         }
         else
         {
             <tr>
-                <td colspan="11">No hay riesgos disponibles.</td>
+                <td colspan="6">No hay controles disponibles.</td>
             </tr>
         }
     </tbody>
 </table>
-
-@section Scripts {
-    <script>
-        // Esperar 3 segundos (3000 milisegundos) y luego ocultar el mensaje
-        setTimeout(function () {
-            $('#tempMessage').fadeOut('fast');
-        }, 3000); // <-- Tiempo en milisegundos
-    </script>
-}

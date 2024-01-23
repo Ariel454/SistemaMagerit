@@ -9,9 +9,9 @@ namespace SeguridadInformática.Models
         [Required]
         public string Nombre { get; set; }
         [Required]
-        public string Descripcion { get; set; }
+        public string Descripcion { get;  set; }
         [Required]
-        public string TipoControl { get; set; }
+        public string TipoControl { get;  set; }
 
         [Required]
         public float Eficacia { get; set; }
@@ -53,6 +53,6 @@ namespace SeguridadInformática.Models
             return $"Control{{nombre={Nombre}, descripcion={Descripcion}, tipoControl={TipoControl}, eficacia={Eficacia}}}";
         }
 
-
+       
     }
 }

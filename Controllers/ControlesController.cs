@@ -5,22 +5,12 @@ using SeguridadInformática.Models;
 
 namespace SistemaMagerit.Controllers
 {
-public class ControlesController : Controller
+    public class ControlesController : Controller
     {
         // Lista estática para almacenar los controles
-<<<<<<< HEAD
-        public static List<Control> listaDeControles = new List<Control>()
-          {
-            //new Control { Nombre = "Modificacion_Del_Riesgo", Descripcion = "Descripción 1", TipoControl = null, Eficacia = 5 },
-            //new Control { Nombre = "Retencion_Del_Riesgo", Descripcion = "Descripción 2", TipoControl = null, Eficacia = 7 },
-            // Agrega más controles según sea necesario
-           };
-
-=======
         public static List<Control> listaDeControles = new List<Control>();
         //public static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
         public static int idCounter = 1;
->>>>>>> bb1daa868e27a638254db5b678eb12107bc2abb3
 
 
         // GET: ControlesController
@@ -51,13 +41,8 @@ public class ControlesController : Controller
             control.Id_Control = "C0" + idCounter++;
             control.listaDeRiesgos = new List<Riesgo>();
 
-<<<<<<< HEAD
-                // Agrega el mensaje a TempData
-                TempData["Message"] = "Se ha creado un control";
 
-                // Redirigir a la acción Index
-                return RedirectToAction("Index");
-=======
+
             // Asegúrate de que riesgosSeleccionados no sea nulo o vacío antes de procesarlo
             if (!string.IsNullOrWhiteSpace(riesgosSeleccionados))
             {
@@ -74,10 +59,11 @@ public class ControlesController : Controller
                         System.Console.WriteLine("No agrega no se xq");
                     }
                 }
->>>>>>> bb1daa868e27a638254db5b678eb12107bc2abb3
             }
 
             listaDeControles.Add(control);
+
+            TempData["Message"] = "Se ha creado un riesgo";
 
             return RedirectToAction("Index");
         }
@@ -100,7 +86,7 @@ public class ControlesController : Controller
         }
 
         // GET: ControlesController/Edit/5
-       public ActionResult Edit(string Id_Control)
+        public ActionResult Edit(string Id_Control)
         {
             // Buscar el control en la lista por el nombre utilizando el método BuscarControlPorNombre
             Control control = BuscarControlPorId(Id_Control);

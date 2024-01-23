@@ -12,7 +12,7 @@ namespace SistemaMagerit.Controllers
     {
 
         // Lista estática para almacenar los riesgos
-        private static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
+        public static List<Riesgo> listaDeRiesgos = new List<Riesgo>();
         public static int idCounter = 1;
 
         // GET: RiesgosController
@@ -54,7 +54,7 @@ namespace SistemaMagerit.Controllers
             riesgo.ActivoEnRiesgo = activoSeleccionado;
 
             // Agrega el mensaje a TempData
-            TempData["Message"] = "Se ha creado un control";
+            TempData["Message"] = "Se ha creado un riesgo";
 
             listaDeRiesgos.Add(riesgo);
 

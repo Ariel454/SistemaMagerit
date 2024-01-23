@@ -4,53 +4,15 @@
     ViewData["Title"] = "Crear Control";
 }
 
-<div class="container py-5">
-    <h2 class="text-center mb-4">@ViewData["Title"]</h2>
-    <div class="row justify-content-center">
-        <div class="col-lg-6">
-            <div class="card shadow">
-                <div class="card-body">
-                    <form asp-action="Create" method="post">
-                        <div class="mb-3">
-                            <label asp-for="Nombre" class="form-label"></label>
-                            <input asp-for="Nombre" class="form-control" />
-                            <span asp-validation-for="Nombre" class="text-danger"></span>
-                        </div>
+<h1>@ViewData["Title"]</h1>
 
-                        <div class="mb-3">
-                            <label asp-for="Descripcion" class="form-label"></label>
-                            <textarea asp-for="Descripcion" class="form-control" rows="3"></textarea>
-                            <span asp-validation-for="Descripcion" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="TipoControl" class="form-label"></label>
-                            <select asp-for="TipoControl" class="form-select">
-                                @foreach (var tipoControl in Enum.GetValues(typeof(SeguridadInformática.Models.TipoControl)))
-                                {
-                                    <option value="@tipoControl">@tipoControl</option>
-                                }
-                            </select>
-                            <span asp-validation-for="TipoControl" class="text-danger"></span>
-                        </div>
-
-                        <div class="mb-3">
-                            <label asp-for="Eficacia" class="form-label"></label>
-                            <input asp-for="Eficacia" type="number" class="form-control" min="0" max="10" step="0.1" />
-                            <span asp-validation-for="Eficacia" class="text-danger"></span>
-                        </div>
-
-                        <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary">Guardar</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<form asp-action="Create" method="post">
+    <!-- Campos del modelo Control -->
+    <div class="form-group">
+        <label asp-for="Nombre"></label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
     </div>
-<<<<<<< HEAD
-</div>
-=======
 
     <div class="form-group">
         <label asp-for="Descripcion"></label>
@@ -121,4 +83,3 @@
     </script>
 
 }
->>>>>>> bb1daa868e27a638254db5b678eb12107bc2abb3
